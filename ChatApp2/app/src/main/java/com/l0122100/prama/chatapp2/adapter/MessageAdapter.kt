@@ -1,12 +1,10 @@
 package com.l0122100.prama.chatapp2.adapter
 
 import android.app.AlertDialog
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -16,39 +14,30 @@ import com.l0122100.prama.chatapp2.databinding.DeleteLayoutBinding
 import com.l0122100.prama.chatapp2.databinding.ReceiveMsgBinding
 import com.l0122100.prama.chatapp2.databinding.SendMsgBinding
 import com.l0122100.prama.chatapp2.model.Message
-import java.net.NoRouteToHostException
 
-class MessageAdapter (
-    var context:Context,
-    messages:ArrayList<Message>?,
-    senderRoom:String,
-    receiverRoom:String
-):RecyclerView.Adapter<RecyclerView.ViewHolder?>()
-{
-    lateinit var messages:ArrayList<Message>
-    val ITEM_SENT = 1
-    val ITEM_RECEIVE =2
-    val senderRoom :String
-    var receiverRoom:String
+class MessageAdapter(
+    private val context: Context,
+    private var messages: ArrayList<Message>,
+    private val senderRoom: String,
+    private val receiverRoom: String
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val ITEM_SENT = 1
+    private val ITEM_RECEIVE = 2
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == ITEM_SENT){
-            val view:View = LayoutInflater.from(context).inflate(
-                R.layout.send_msg,parent,
-                false)
+        return if (viewType == ITEM_SENT) {
+            val view: View = LayoutInflater.from(context).inflate(R.layout.send_msg, parent, false)
             SentMsgHolder(view)
-        }else{
-            val view =  LayoutInflater.from(context).inflate(
-                R.layout.receive_msg,parent,
-                false)
+        } else {
+            val view: View = LayoutInflater.from(context).inflate(R.layout.receive_msg, parent, false)
             ReceiveMsgHolder(view)
-
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        val messages = messages[position]
-        return if (FirebaseAuth.getInstance().uid == messages.senderId){
+        val message = messages[position]
+        return if (FirebaseAuth.getInstance().uid == message.senderId) {
             ITEM_SENT
         } else {
             ITEM_RECEIVE
@@ -59,137 +48,97 @@ class MessageAdapter (
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val message = messages[position]
-        if (holder.javaClass == SentMsgHolder::class.java){
-            val viewHolder = holder as SentMsgHolder
-            if (message.message.equals("photo")){
-                viewHolder.binding.image.visibility = View.VISIBLE
-                viewHolder.binding.message.visibility = View.GONE
-                viewHolder.binding.mLinear.visibility = View.GONE
-                Glide.with(context)
-                    .load(message.imageUrl)
-                    .placeholder(R.drawable.placeholder)
-                    .into(viewHolder.binding.image)
-
-            }
-            viewHolder.binding.message.text = message.message
-            viewHolder.itemView.setOnLongClickListener{
-
-                val view = LayoutInflater.from(context).inflate(R.layout.delete_layout,null)
-                val binding:DeleteLayoutBinding = DeleteLayoutBinding.bind(view)
-                val dialog  = AlertDialog.Builder(context).setTitle("Delete Message")
-                    .setView(binding.root)
-                    .create()
-                binding.everyone.setOnClickListener{
-                    message.message = "Pesan ini dihapus ngabs"
-                    message.messageId?.let{it1->
-                        FirebaseDatabase.getInstance().reference.child("chats")
-                            .child(senderRoom)
-                            .child("message")
-                            .child(it1).setValue(message)
-
-                    }
-                    message.messageId.let {it1->
-                        FirebaseDatabase.getInstance().reference.child("chats")
-                            .child(receiverRoom)
-                            .child("message")
-                            .child(it1!!).setValue(message)
-
-                    }
-                    dialog.dismiss()
-
-                }
-                binding.delete.setOnClickListener {
-                    message.messageId.let { it1 ->
-                        FirebaseDatabase.getInstance().reference.child("chats")
-                            .child(senderRoom)
-                            .child("message")
-                            .child(it1!!).setValue(null)
-                    }
-                    dialog.dismiss()
-
-                }
-
-                binding.cancel.setOnClickListener { dialog.dismiss() }
-                dialog.show()
-
-
-                false
-            }
-
-        }
-        else {
-            val viewHolder = holder as ReceiveMsgHolder
-            if (message.message.equals("photo")) {
-                viewHolder.binding.image.visibility = View.VISIBLE
-                viewHolder.binding.message.visibility = View.GONE
-                viewHolder.binding.mLinear.visibility = View.GONE
-                Glide.with(context)
-                    .load(message.imageUrl)
-                    .placeholder(R.drawable.placeholder)
-                    .into(viewHolder.binding.image)
-
-            }
-            viewHolder.binding.message.text = message.message
-            viewHolder.itemView.setOnLongClickListener {
-
-                val view = LayoutInflater.from(context).inflate(R.layout.delete_layout, null)
-                val binding: DeleteLayoutBinding = DeleteLayoutBinding.bind(view)
-                val dialog = AlertDialog.Builder(context).setTitle("Delete Message")
-                    .setView(binding.root)
-                    .create()
-                binding.everyone.setOnClickListener {
-                    message.message = "Pesan ini dihapus ngabs"
-                    message.messageId?.let { it1 ->
-                        FirebaseDatabase.getInstance().reference.child("chats")
-                            .child(senderRoom)
-                            .child("message")
-                            .child(it1).setValue(message)
-
-                    }
-                    message.messageId.let { it1 ->
-                        FirebaseDatabase.getInstance().reference.child("chats")
-                            .child(receiverRoom)
-                            .child("message")
-                            .child(it1!!).setValue(message)
-
-                    }
-                    dialog.dismiss()
-
-                }
-                binding.delete.setOnClickListener {
-                    message.messageId.let { it1 ->
-                        FirebaseDatabase.getInstance().reference.child("chats")
-                            .child(senderRoom)
-                            .child("message")
-                            .child(it1!!).setValue(null)
-                    }
-                    dialog.dismiss()
-
-                }
-
-                binding.cancel.setOnClickListener { dialog.dismiss() }
-                dialog.show()
-                false
-            }
+        if (holder is SentMsgHolder) {
+            bindSentMessage(holder, message)
+        } else if (holder is ReceiveMsgHolder) {
+            bindReceivedMessage(holder, message)
         }
     }
 
-
-    inner class SentMsgHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        var binding:SendMsgBinding = SendMsgBinding.bind(itemView)
-    }
-
-    inner class ReceiveMsgHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        var binding:ReceiveMsgBinding = ReceiveMsgBinding.bind(itemView)
-    }
-
-    init {
-        if (messages != null){
-            this.messages = messages
+    private fun bindSentMessage(holder: SentMsgHolder, message: Message) {
+        if (message.message == "photo") {
+            holder.binding.image.visibility = View.VISIBLE
+            holder.binding.message.visibility = View.GONE
+            holder.binding.mLinear.visibility = View.GONE
+            Glide.with(context)
+                .load(message.imageUrl)
+                .placeholder(R.drawable.placeholder)
+                .into(holder.binding.image)
+        } else {
+            holder.binding.message.text = message.message
         }
-        this.senderRoom = senderRoom
-        this.receiverRoom = receiverRoom
+        holder.itemView.setOnLongClickListener {
+            showDeleteDialog(message, holder.binding.root)
+            true
+        }
     }
 
+    private fun bindReceivedMessage(holder: ReceiveMsgHolder, message: Message) {
+        if (message.message == "photo") {
+            holder.binding.image.visibility = View.VISIBLE
+            holder.binding.message.visibility = View.GONE
+            holder.binding.mLinear.visibility = View.GONE
+            Glide.with(context)
+                .load(message.imageUrl)
+                .placeholder(R.drawable.placeholder)
+                .into(holder.binding.image)
+        } else {
+            holder.binding.message.text = message.message
+        }
+        holder.itemView.setOnLongClickListener {
+            showDeleteDialog(message, holder.binding.root)
+            true
+        }
+    }
+
+    private fun showDeleteDialog(message: Message, view: View) {
+        val view = LayoutInflater.from(context).inflate(R.layout.delete_layout, null)
+        val binding: DeleteLayoutBinding = DeleteLayoutBinding.bind(view)
+        val dialog = AlertDialog.Builder(context)
+            .setTitle("Delete Message")
+            .setView(binding.root)
+            .create()
+
+        binding.everyone.setOnClickListener {
+            deleteMessageForEveryone(message)
+            dialog.dismiss()
+        }
+        binding.delete.setOnClickListener {
+            deleteMessageForUser(message)
+            dialog.dismiss()
+        }
+        binding.cancel.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+    }
+
+    private fun deleteMessageForEveryone(message: Message) {
+        message.message = "This message was deleted"
+        message.messageId?.let {
+            FirebaseDatabase.getInstance().reference.child("chats")
+                .child(senderRoom)
+                .child("messages")
+                .child(it).setValue(message)
+            FirebaseDatabase.getInstance().reference.child("chats")
+                .child(receiverRoom)
+                .child("messages")
+                .child(it).setValue(message)
+        }
+    }
+
+    private fun deleteMessageForUser(message: Message) {
+        message.messageId?.let {
+            FirebaseDatabase.getInstance().reference.child("chats")
+                .child(senderRoom)
+                .child("messages")
+                .child(it).setValue(null)
+        }
+    }
+
+    inner class SentMsgHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var binding: SendMsgBinding = SendMsgBinding.bind(itemView)
+    }
+
+    inner class ReceiveMsgHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var binding: ReceiveMsgBinding = ReceiveMsgBinding.bind(itemView)
+        }
 }
-
