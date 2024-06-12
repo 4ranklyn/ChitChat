@@ -1,0 +1,23 @@
+<resources>
+    <string name="profile_image">Profile Image</string>
+    <string name="change_image">Change Image</string>
+    <string name="enter_name">Enter your name</string>
+    <string name="save">Save</string>
+    <string name="app_name">ChitChat</string>
+    <string name="answer_amp_question"><![CDATA[Answer & Question]]></string>
+    <string name="ask_any_question_for_your_problem">ask any question for your problem</string>
+    <string name="profile_name">Profile Name</string>
+    <string name="work_in_coffe">work in coffe</string>
+    <string name="text_profile_name">Profile Name</string>
+    <string name="text_status">Status</string>
+    <string name="text_hint">Type your message</string>
+    <string name="submit">Submit</string>
+    <string name="verification">Enter the verification code sent to your phone</string>
+    <string name="verif">Verify 08123131</string>
+    <string name="enter_num">Enter your phone number</string>
+    <string name="phone_number">Phone number...</string>
+    <string name="delete_for_everyone">Delete for everyone</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_for_me">Delete For Me</string>
+    <string name="chitchat">ChitChat</string>
+</resources>

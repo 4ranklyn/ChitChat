@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "481715045943",
+    "project_id": "appchat2-4d966",
+    "storage_bucket": "appchat2-4d966.appspot.com",
+    "firebase_url": "https://appchat2-4d966-default-rtdb.asia-southeast1.firebasedatabase.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481715045943:android:7b373c7c86002a2e78a1b2",
+        "android_client_info": {
+          "package_name": "com.l0122100.prama.chatapp2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfq2IeI_jJPYnM0jEGn-AmDbn6zqHqp7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

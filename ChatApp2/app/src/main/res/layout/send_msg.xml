@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="end"
+    android:layout_gravity="end">
+
+    <LinearLayout
+        android:id="@+id/mLinear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="15dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/send_drawable"
+
+        >
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/chitchat"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textAlignment="textStart"
+            android:fontFamily="@font/sfdisplayregular"
+            />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/image"
+        android:layout_margin="5dp"
+        android:scaleType="centerCrop"
+        android:layout_width="200dp"
+        android:visibility="gone"
+        android:layout_height="130dp"/>
+
+</LinearLayout>
