@@ -48,3 +48,4 @@ class UserAdapter(var context: Context, var userList: ArrayList<User>):
 
     override fun getItemCount(): Int = userList.size
 }
+

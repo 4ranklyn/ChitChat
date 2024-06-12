@@ -25,8 +25,6 @@ class OTPActivity : AppCompatActivity() {
     var auth:FirebaseAuth? = null
     var dialog : ProgressDialog? = null
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

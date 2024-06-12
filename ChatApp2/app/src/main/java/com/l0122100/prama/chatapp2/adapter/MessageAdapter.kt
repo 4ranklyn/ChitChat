@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.l0122100.prama.chatapp2.R
 import com.l0122100.prama.chatapp2.databinding.DeleteLayoutBinding
+import com.l0122100.prama.chatapp2.databinding.ReceiveMsgBinding
 import com.l0122100.prama.chatapp2.databinding.SendMsgBinding
 import com.l0122100.prama.chatapp2.model.Message
 import java.net.NoRouteToHostException
@@ -179,7 +180,7 @@ class MessageAdapter (
     }
 
     inner class ReceiveMsgHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        var binding:SendMsgBinding = SendMsgBinding.bind(itemView)
+        var binding:ReceiveMsgBinding = ReceiveMsgBinding.bind(itemView)
     }
 
     init {
@@ -190,7 +191,5 @@ class MessageAdapter (
         this.receiverRoom = receiverRoom
     }
 
-
-
-
 }
+
